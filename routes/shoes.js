@@ -18,12 +18,13 @@ router.get('/', async (req, res, next) => {
   }
 });
 // @desc    GET one shoe
-// @route   GET /api/v1/shoes
+// @route   GET /api/v1/shoes/:id
 // @access  Public
 router.get('/:shoeId', async (req, res, next) => {
   const { shoeId } = req.params;
   try {
-    const selectedShoe = await Shoe.find({shoeId});
+    const selectedShoe = await Shoe.findById(shoeId);
+    console.log(selectedShoe)
     if (selectedShoe.length === 0) {
       res.status(404).json({ response: 'The selected show was not found in the database ' });
     } else {

@@ -27,6 +27,9 @@ router.post('/:shoeId',isAuthenticated, async (req, res, next) => {
     const { text, rating } = req.body;
     const { shoeId } = req.params;
     const { _id } = req.payload;
+    if (!text) {
+      return next(new ErrorResponse('Please fill the comment section', 400))
+  }
     try {
       const newComment = await Comment.create({ text, rating, shoe_id: shoeId, user_id: _id });
       res.status(201).json({ data: newComment })
@@ -41,25 +44,39 @@ router.put('/:commentId', isAuthenticated, async (req, res, next) => {
     const { text, rating } = req.body;
     const { commentId } = req.params;
     const { _id } = req.payload;
+    if (!text) {
+      return next(new ErrorResponse('Please fill the comment section', 400))
+    }
     try {
-        // buscar el comentario by Id
-        // Si no existe error
-        // comment.user_id = req.payload._id
-        // Si no, no estas autorizado a editar este comentario
-
+      const comment = await Comment.findById(commentId);
+      if(!comment){
+        return next(ErrorResponse('Comment not found', 404));
+      }
+      if(comment.user_id !== _id){
+        return next(ErrorResponse('User not authorized to edit this comment', 401));
+      }
       const updatedComment = await Comment.findByIdAndUpdate(commentId, { text, rating }, { new: true });
       res.status(202).json({ data: updatedComment })
     } catch (error) {
       next(error);
     }
   });
+
   // @desc    Delete a comment
   // @route   DELETE /:id
   // @access  Public
-  router.delete('/:id', async (req, res, next) => {
-    const { id } = req.params;
+  router.delete('/:id', isAuthenticated, async (req, res, next) => {
+    const { commentId } = req.params;
+    const { _id } = req.payload;
     try {
-      const deleted = await Movie.findByIdAndDelete(id);
+      const comment = await Comment.findById(commentId);
+      if(!comment){
+        return next(ErrorResponse('Comment not found', 404));
+      }
+      if(comment.user_id !== _id){
+        return next(ErrorResponse('User not authorized to delete this comment', 401));
+      }
+      const deleted = await Comment.findByIdAndDelete(commentId);
       res.status(204).json({ data: deleted });
     } catch (error) {
       next(error);

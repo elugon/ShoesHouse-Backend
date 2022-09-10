@@ -21,8 +21,8 @@ mongoose.connect(process.env.MONGO_URL)
   .then(x => console.log(`Connected to ${x.connection.name}`))
   .then(axios.request(options).then(function(response){
     const shoesData=response.data.results
-    
-    return Shoe.create(shoesData)
+    const filteredShoes=shoesData.filter(ele=>ele.media.imageUrl!==null&&ele.retailPrice>0)
+    return Shoe.create(filteredShoes)
   })
   .then(() => {
     console.log('Seed done 🌱');
