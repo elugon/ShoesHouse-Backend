@@ -11,6 +11,7 @@ const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
 const allShoes=require('./routes/shoes')
 const allComments=require('./routes/comments')
+const shoppingCar=require('./routes/shoppingCar')
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use('/', indexRouter);
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/shoes', allShoes)
 app.use('/api/v1/comments', allComments)
+app.use('/api/v1/shoppingCar', shoppingCar)
 app.use(errorHandler);
 
 // catch 404 and forward to error handler
