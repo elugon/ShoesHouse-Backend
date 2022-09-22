@@ -4,6 +4,9 @@ const commentSchema = new Schema({
   user_id: {
     type: Schema.Types.ObjectId, ref: 'User'
   },
+  user_name:{
+    type:String,
+  },
   shoe_id: {
     type: Schema.Types.ObjectId, ref: 'Shoe',
   },
@@ -12,6 +15,8 @@ const commentSchema = new Schema({
   },
   rating: {
     type: Number,
-  }
-});
+  }},
+    {
+    timestamps: true
+    });
 module.exports = model("Comment", commentSchema);

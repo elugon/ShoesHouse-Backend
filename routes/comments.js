@@ -24,14 +24,15 @@ router.get('/:id', async (req, res, next) => {
 // @route   POST /
 // @access  Private
 router.post('/:shoeId',isAuthenticated, async (req, res, next) => {
-    const { text, rating } = req.body;
+    console.log('Posting a comment', req.body)
+    const { text, rating, user_name } = req.body;
     const { shoeId } = req.params;
     const { _id } = req.payload;
     if (!text) {
       return next(new ErrorResponse('Please fill the comment section', 400))
   }
     try {
-      const newComment = await Comment.create({ text, rating, shoe_id: shoeId, user_id: _id });
+      const newComment = await Comment.create({ text, rating, user_name, shoe_id: shoeId, user_id: _id });
       res.status(201).json({ data: newComment })
     } catch (error) {
       next(error);
