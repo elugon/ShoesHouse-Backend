@@ -30,7 +30,10 @@ router.post('/:shoeId',isAuthenticated, async (req, res, next) => {
     const { _id } = req.payload;
     if (!text) {
       return next(new ErrorResponse('Please fill the comment section', 400))
+  } if(!isAuthenticated){
+    return next(new ErrorResponse('Please log in first!', 400))
   }
+
     try {
       const newComment = await Comment.create({ text, rating, user_name, shoe_id: shoeId, user_id: _id });
       res.status(201).json({ data: newComment })
