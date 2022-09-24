@@ -1,13 +1,13 @@
 const router = require('express').Router();
 const ErrorResponse = require('../utils/error');
 const axios = require('axios');
-const Car = require('../models/Car')
+const Car = require('../models/Cart')
 const jwt = require("jsonwebtoken");
 const { isAuthenticated } = require('../middlewares/jwt');
-// @desc    GET all the Items on the shopping car
+// @desc    GET all the Items on the shopping cart
 // @route   GET /api/v1/shoppingcar/
 // @access  Private
-router.get('/shoppingcar', isAuthenticated, async (req, res, next) => {
+router.get('/', isAuthenticated, async (req, res, next) => {
     const { _id } = req.payload;
   try {
     const items = await Car.find({user_id:_id});
@@ -20,22 +20,23 @@ router.get('/shoppingcar', isAuthenticated, async (req, res, next) => {
     next(error);
   }
 })
-// @desc    POST a shoe to the shopping car
+// @desc    POST a shoe to the shopping cart
 // @route   POST /api/v1/shoppingcar/:shoeId
 // @access  Private
-router.post('/shoppingcar/:shoeId',isAuthenticated, async (req, res, next) => {
+router.post('/:shoeId',isAuthenticated, async (req, res, next) => {
     const { shoeId } = req.params;
     const { _id } = req.payload;
     try {
       const items = await Car.findOne({user_id:_id});
-      if (items.length === 0){
+      console.log(items)
+      if (items === null){
         const newCar = await Car.create({ shoe_id: shoeId, user_id: _id });
         res.status(201).json({ data: newCar })
       } else{
         items.shoe_id.push(shoeId)
         items.save()
       }
-      res.status(201).json({ data: newComment })
+      res.status(201).json({ data: items })
     } catch (error) {
       next(error);
     }
@@ -49,10 +50,10 @@ router.post('/shoppingcar/:shoeId',isAuthenticated, async (req, res, next) => {
 
 // Si no tiene carrito, create(user_id, shoe_id)
 
-// @desc    Delete a shoe from the car
+// @desc    Delete a shoe from the cart
 // @route   DELETE /api/v1/shoppingcar/:shoeId
 // @access  Private
-  router.delete('/shoppingcar/:id', isAuthenticated, async (req, res, next) => {
+  router.delete('/:id', isAuthenticated, async (req, res, next) => {
     const { shoeId } = req.params;
     const { _id } = req.payload;
     try {
