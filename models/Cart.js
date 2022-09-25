@@ -4,8 +4,10 @@ const shoppingCartSchema = new Schema({
   user_id: {
     type: Schema.Types.ObjectId, ref: 'User'
   },
-  shoe_id: {
-    type: [Schema.Types.ObjectId], ref: 'Shoe'
+  shoes: {
+    type: [{
+      Object
+    }]
   },
   adress:{
     type: String,
