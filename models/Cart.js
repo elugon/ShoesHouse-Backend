@@ -5,14 +5,7 @@ const shoppingCartSchema = new Schema({
     type: Schema.Types.ObjectId, ref: 'User'
   },
   shoes: {
-    type: [{
-      Object
-    }]
-  },
-  adress:{
-    type: String,
-    default: ''
+    type: []
   }},
-  {timestamps:true},
 );
 module.exports = model("Cart", shoppingCartSchema);

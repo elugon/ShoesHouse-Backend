@@ -21,7 +21,7 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 // @desc    Create a comment
-// @route   POST /
+// @route   POST /api/v1/comments/:shoeId
 // @access  Private
 router.post('/:shoeId',isAuthenticated, async (req, res, next) => {
     console.log('Posting a comment', req.body)
@@ -42,7 +42,7 @@ router.post('/:shoeId',isAuthenticated, async (req, res, next) => {
     }
   });
 // @desc    Edit a comment
-// @route   PUT /:id
+// @route   PUT /api/v1/comments/:id
 // @access  Private
 router.put('/:commentId', isAuthenticated, async (req, res, next) => {
     const { text, rating } = req.body;
@@ -67,7 +67,7 @@ router.put('/:commentId', isAuthenticated, async (req, res, next) => {
   });
 
   // @desc    Delete a comment
-  // @route   DELETE /:id
+  // @route   DELETE /api/v1/comments/:id
   // @access  Public
   router.delete('/:id', isAuthenticated, async (req, res, next) => {
     const { commentId } = req.params;

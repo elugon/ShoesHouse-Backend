@@ -22,5 +22,4 @@ const shoesSchema = new Schema({
     type: [],
   }
 });
-
 module.exports = model("Shoe", shoesSchema);
