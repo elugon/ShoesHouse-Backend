@@ -1,8 +1,6 @@
 const router = require('express').Router();
 const ErrorResponse = require('../utils/error');
-const axios = require('axios');
 const Comment = require('../models/Comment')
-const jwt = require("jsonwebtoken");
 const { isAuthenticated } = require('../middlewares/jwt');
 // @desc    GET all the Comments of one shoe
 // @route   GET /api/v1/comments/:id
@@ -24,7 +22,6 @@ router.get('/:id', async (req, res, next) => {
 // @route   POST /api/v1/comments/:shoeId
 // @access  Private
 router.post('/:shoeId',isAuthenticated, async (req, res, next) => {
-    console.log('Posting a comment', req.body)
     const { text, rating, user_name } = req.body;
     const { shoeId } = req.params;
     const { _id } = req.payload;
@@ -33,7 +30,6 @@ router.post('/:shoeId',isAuthenticated, async (req, res, next) => {
   } if(!isAuthenticated){
     return next(new ErrorResponse('Please log in first!', 400))
   }
-
     try {
       const newComment = await Comment.create({ text, rating, user_name, shoe_id: shoeId, user_id: _id });
       res.status(201).json({ data: newComment })

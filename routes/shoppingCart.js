@@ -24,7 +24,6 @@ router.get('/', isAuthenticated, async (req, res, next) => {
 // @access  Private
 router.post('/:shoeId',isAuthenticated, async (req, res, next) => {
     const { shoeId } = req.params;
-    const { size } = req.body;
     const { _id } = req.payload;
     try {
       const items = await Cart.findOne({user_id:_id});
@@ -49,7 +48,6 @@ router.post('/:shoeId',isAuthenticated, async (req, res, next) => {
     const { _id } = req.payload;
     try {
           const deleted = await Cart.findOne({user_id:_id});
-          console.log(deleted)
           deleted.shoes.pop(shoeId)
           deleted.save()
           res.status(202).json({ data: deleted });
