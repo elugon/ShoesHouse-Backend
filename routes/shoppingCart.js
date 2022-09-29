@@ -3,7 +3,7 @@ const Cart = require('../models/Cart')
 const Shoe = require('../models/Shoe')
 const { isAuthenticated } = require('../middlewares/jwt');
 // @desc    GET all the Items on the shopping cart
-// @route   GET /api/v1/shoppingcar/
+// @route   GET /api/v1/shoppingcart/
 // @access  Private
 router.get('/', isAuthenticated, async (req, res, next) => {
     const { _id } = req.payload;
@@ -20,7 +20,7 @@ router.get('/', isAuthenticated, async (req, res, next) => {
     next(error);
   }})
 // @desc    POST a shoe to the shopping cart
-// @route   POST /api/v1/shoppingcar/:shoeId
+// @route   POST /api/v1/shoppingcart/:shoeId
 // @access  Private
 router.post('/:shoeId',isAuthenticated, async (req, res, next) => {
     const { shoeId } = req.params;
@@ -41,9 +41,9 @@ router.post('/:shoeId',isAuthenticated, async (req, res, next) => {
     }
   });
 // @desc    Delete a shoe from the cart
-// @route   DELETE /api/v1/shoppingcar/:shoeId
+// @route   DELETE /api/v1/shoppingcart/:shoeId
 // @access  Private
-  router.delete('/:id', isAuthenticated, async (req, res, next) => {
+  router.delete('/:shoeId', isAuthenticated, async (req, res, next) => {
     const { shoeId } = req.params;
     const { _id } = req.payload;
     try {

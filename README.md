@@ -31,10 +31,6 @@ npm run seed
 
 ## Models
 
-### User
-
-Users in the database have the following properties:
-
 ```js
 
 const shoppingCartSchema = new Schema({
@@ -130,6 +126,12 @@ module.exports = model("User", userSchema);
 | POST a comment | POST | /api/v1/comments/:shoeId | { text, rating, user_name, shoeId, _id | Private |
 | PUT a comment | PUT | /api/v1/comments/:commentId | { text, rating, commentId, _id | Private |
 | DELETE a comment | DELETE | /api/v1/comments/:id | { commentId, _id } | Private
+| GET all the shoes | GET | /api/v1/shoes | | Public |
+| GET one shoe | GET | /api/v1/shoes/:id | { shoeId } | Public |
+| GET all the items on the cart | GET | /api/v1/shoppingcart/ | { _id } | Private
+| POST a item on the cart | POST | /api/v1/shoppingcart/:shoeId | { _id, shoeId } | Private
+| DELTE a item of the cart | DELETE | /api/v1/shoppingcart/:shoeId | { _id, shoeId } | Private
+
 ---
 
 ## Useful links
